@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { getTheme } from './theme/theme';
+import Navbar from './components/Navbar';
+import AppRoutes from './routes/AppRoutes';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const App: React.FC = () => {
+  // Persistent theme state using localStorage + type safety
+  const [themeMode, setThemeMode] = useState<'light' | 'dark'>(
+    () => (localStorage.getItem('theme') as 'light' | 'dark') || 'light'
   );
-}
+
+  const toggleTheme = () => {
+    setThemeMode((prev) => {
+      const newMode: 'light' | 'dark' = prev === 'light' ? 'dark' : 'light';
+      localStorage.setItem('theme', newMode);
+      return newMode;
+    });
+  };
+
+  return (
+    <ThemeProvider theme={getTheme(themeMode)}>
+      <CssBaseline />
+      <Navbar onToggleTheme={toggleTheme} />
+      <AppRoutes />
+    </ThemeProvider>
+  );
+};
 
 export default App;
