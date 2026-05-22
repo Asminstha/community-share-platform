@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Container, Tab, Tabs, TextField, Typography, Alert, InputAdornment, IconButton } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -7,13 +7,25 @@ import { auth } from "../utils/firebase";
 import GoogleIcon from "@mui/icons-material/Google";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const AuthPage: React.FC = () => {
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Formik form schema
+  const { user } = useAuth(); // <-- add this!
+
+  const navigate = useNavigate();
+
+  //THIS IS WHAT CAUSES THE REDIRECT AFTER LOGIN
+  useEffect(() => {
+    if (user) {
+      navigate("/", { replace: true }); // or any page we want
+    }
+  }, [user, navigate]);
+
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: Yup.object({
@@ -28,6 +40,7 @@ const AuthPage: React.FC = () => {
         } else {
           await createUserWithEmailAndPassword(auth, values.email, values.password);
         }
+        // Don't navigate here, useEffect above will take care of redirection when `user` changes
       } catch (err: any) {
         setError(err.message);
       }
@@ -77,7 +90,7 @@ const AuthPage: React.FC = () => {
                   </IconButton>
                 </InputAdornment>
               ),
-            },
+            }
             }}
           />
           {error && <Alert severity="error" sx={{ my: 2 }}>{error}</Alert>}
