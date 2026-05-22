@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { getTheme } from './theme/theme';
 import Navbar from './components/Navbar';
 import AppRoutes from './routes/AppRoutes';
+import { BrowserRouter } from 'react-router-dom';
 
 const App: React.FC = () => {
   // Persistent theme state using localStorage + type safety
@@ -20,11 +21,13 @@ const App: React.FC = () => {
   };
 
   return (
-    <ThemeProvider theme={getTheme(themeMode)}>
-      <CssBaseline />
-      <Navbar onToggleTheme={toggleTheme} />
-      <AppRoutes />
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={getTheme(themeMode)}>
+        <CssBaseline />
+        <Navbar onToggleTheme={toggleTheme} />
+        <AppRoutes />
+      </ThemeProvider>
+    </BrowserRouter>
   );
 };
 

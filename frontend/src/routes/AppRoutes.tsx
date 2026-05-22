@@ -4,16 +4,23 @@ import HomePage from '../pages/HomePage';
 import PostPage from '../pages/PostPage';
 import ProfilePage from '../pages/ProfilePage';
 import NotFoundPage from '../pages/NotFoundPage';
-
+import AuthPage from '../pages/AuthPage';
+import PrivateRoute from './PrivateRoute';
 const AppRoutes: React.FC = () => (
-  <BrowserRouter>
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/post/:id" element={<PostPage />} />
       <Route path="/profile/:id" element={<ProfilePage />} />
       <Route path="*" element={<NotFoundPage />} />
+      
+      <Route path="/auth" element={<AuthPage />} />
+      <Route element={<PrivateRoute />}>
+  {/* Put all private routes inside here */}
+     <Route path="/profile/:id" element={<ProfilePage />} />
+  <Route path="/post/:id" element={<PostPage />} />
+  {/* ...more private routes */}
+</Route> 
     </Routes>
-  </BrowserRouter>
 );
 
 export default AppRoutes;
