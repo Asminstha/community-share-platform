@@ -1,8 +1,9 @@
 import React from "react";
-import { Container, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import PostCard from "../components/PostCard";
 import { mockPosts } from "../utils/mockPosts";
-
+import { Link } from "react-router-dom";
+import button from "@mui/material/Button";
 const HomePage: React.FC = () => {
   return (
     <Container maxWidth="md" sx={{ py: 3 }}>
@@ -16,7 +17,11 @@ const HomePage: React.FC = () => {
     </Grid>
   ))}
 </Grid>
+<Button color="inherit" component={Link} to="/create-post">
+  Create Post
+</Button>
     </Container>
+
   );
 };
 

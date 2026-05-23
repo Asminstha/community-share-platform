@@ -6,11 +6,14 @@ import ProfilePage from '../pages/ProfilePage';
 import NotFoundPage from '../pages/NotFoundPage';
 import AuthPage from '../pages/AuthPage';
 import PrivateRoute from './PrivateRoute';
+import CreatePostPage from "../pages/CreatePostPage";
+
+
 const AppRoutes: React.FC = () => (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/post/:id" element={<PostPage />} />
-      <Route path="/profile/:id" element={<ProfilePage />} />
+      {/* <Route path="/post/:id" element={<PostPage />} /> */}
+      {/* <Route path="/profile/:id" element={<ProfilePage />} /> */}
       <Route path="*" element={<NotFoundPage />} />
       
       <Route path="/auth" element={<AuthPage />} />
@@ -18,6 +21,8 @@ const AppRoutes: React.FC = () => (
   {/* Put all private routes inside here */}
      <Route path="/profile/:id" element={<ProfilePage />} />
   <Route path="/post/:id" element={<PostPage />} />
+    <Route path="/create-post" element={<CreatePostPage />} />
+
   {/* ...more private routes */}
 </Route> 
     </Routes>
